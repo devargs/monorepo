@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "projects": {
+    "recipes-api": {
+      "root": "apps/recipes-api",
+      "sourceRoot": "apps/recipes-api/src",
+      "projectType": "application",
+      "prefix": "recipes-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/recipes-api",
+            "main": "apps/recipes-api/src/main.ts",
+            "tsConfig": "apps/recipes-api/tsconfig.app.json",
+            "assets": ["apps/recipes-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/recipes-api/src/environments/environment.ts",
+                  "with": "apps/recipes-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "recipes-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/recipes-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/recipes-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "recipes-api"
+}
