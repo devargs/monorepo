@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import {PrismaClient} from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    return { message: 'Welcome to recipes-api!' };
+  async getData(){
+    const allRecipes = await prisma.recipe.findMany();
+    return allRecipes;
   }
 }
